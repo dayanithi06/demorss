@@ -31,8 +31,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void loadPrefs() {
-       isRedditSubscribed= PrefConnect.readBoolean(this, PrefConnect.isRedditSubscribed, false);
-       isYahooSubscribed= PrefConnect.readBoolean(this, PrefConnect.isYahooSubscribed, false);
+       isRedditSubscribed = PrefConnect.readBoolean(this, PrefConnect.isRedditSubscribed, false);
+       isYahooSubscribed = PrefConnect.readBoolean(this, PrefConnect.isYahooSubscribed, false);
     }
 
     private void initViews() {
