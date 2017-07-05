@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 
 import com.demorss.BaseActivity;
 import com.demorss.R;
+import com.demorss.ui.main.MainActivity;
 import com.demorss.utils.PrefConnect;
 
 /**
