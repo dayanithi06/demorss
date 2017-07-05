@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "407994997742",
+    "project_id": "firebase-demorss"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407994997742:android:083c2cacf614169a",
+        "android_client_info": {
+          "package_name": "com.demorss"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "407994997742-qe92af26hu9tq9ckg3c9heks5km9uckj.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "407994997742-lucqc5jcurm19vjnl3k8ga0bq14qkguu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.demorss",
+            "certificate_hash": "f416dd6aa8db9d415093fba200edb2feb9e91421"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHp07WZgsKI7Od6I7BdN0ZTvfQKn2uUAE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
