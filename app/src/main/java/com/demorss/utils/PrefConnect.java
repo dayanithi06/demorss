@@ -7,6 +7,8 @@ import android.content.SharedPreferences.Editor;
 
 public class PrefConnect {
     public static final String isLoggedIn = "isLoggedIn";
+    public static final String isYahooSubscribed = "isYahooSubscribed";
+    public static final String isRedditSubscribed = "isRedditSubscribed";
 
     private static final String PREF_NAME = "MY_PREF";
     private static final int MODE = Context.MODE_PRIVATE;
