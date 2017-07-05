@@ -3,4 +3,6 @@
     <string name="login_with_google">Login with Google</string>
     <string name="login">Login</string>
     <string name="done">Done</string>
+    <string name="reddit">Reddit</string>
+    <string name="yahoo">Yahoo</string>
 </resources>
