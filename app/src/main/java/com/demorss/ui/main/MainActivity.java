@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setAdapter() {
-        MyPageAdapter pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
+        pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
         pager.setAdapter(pageAdapter);
     }
 
