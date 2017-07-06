@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 
 import com.demorss.R;
 import com.demorss.ui.main.MainActivity;
+import com.demorss.utils.PrefConnect;
 
 /**
  * Created by DAYANITHI on. 04-07-2017.
@@ -15,11 +16,13 @@ import com.demorss.ui.main.MainActivity;
 
 public class SplashActivity extends Activity {
     private static int SPLASH_TIME_OUT = 3000;
+    private boolean isLoggedIn = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        loadPrefs();
         new Handler().postDelayed(new Runnable() {
 
             /*
@@ -31,13 +34,23 @@ public class SplashActivity extends Activity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(i);
+                if (isLoggedIn) {
+                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(i);
+                } else {
+                    Intent i = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(i);
+                }
+
 
                 // close this activity
                 finish();
             }
         }, SPLASH_TIME_OUT);
     }
+
+    private void loadPrefs() {
+        isLoggedIn = PrefConnect.readBoolean(this, PrefConnect.isLoggedIn, false);
     }
+}
 
