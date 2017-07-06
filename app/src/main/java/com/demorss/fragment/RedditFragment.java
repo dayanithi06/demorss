@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.demorss.R;
+import com.demorss.fragment.adapter.RedditAdapter;
 import com.demorss.fragment.adapter.YahooAdapter;
 import com.demorss.model.RssFeedModel;
 import com.demorss.utils.Parser;
@@ -47,6 +49,8 @@ public class RedditFragment extends Fragment {
 
         convertView = inflater.inflate(R.layout.fragment_reddit, container, false);
         intitViews(convertView);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        recycleView.setLayoutManager(manager);
         new FetchFeedTask().execute();
         return convertView;
     }
@@ -94,7 +98,7 @@ public class RedditFragment extends Fragment {
                 mFeedDescriptionTextView.setText("Feed Description: " + mFeedDescription);
                 mFeedLinkTextView.setText("Feed Link: " + mFeedLink);*/
                 // Fill RecyclerView
-                recycleView.setAdapter(new YahooAdapter(mFeedModelList));
+                recycleView.setAdapter(new RedditAdapter(mFeedModelList));
             } else {
                 Toast.makeText(getActivity(),
                         "Something went wrong",
