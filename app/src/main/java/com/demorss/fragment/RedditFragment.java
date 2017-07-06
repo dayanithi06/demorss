@@ -57,7 +57,7 @@ public class RedditFragment extends Fragment {
 
     private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
 
-        private String urlLink;
+
 
         @Override
         protected void onPreExecute() {
@@ -66,12 +66,13 @@ public class RedditFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            if (TextUtils.isEmpty(urlLink))
-                return false;
+
 
             try {
-                if (!urlLink.startsWith("http://") && !urlLink.startsWith("https://"))
+                if (!urlLink.startsWith("http://") && !urlLink.startsWith("https://")){
                     urlLink = "http://" + urlLink;
+
+                }
 
                 URL url = new URL(urlLink);
                 InputStream inputStream = url.openConnection().getInputStream();

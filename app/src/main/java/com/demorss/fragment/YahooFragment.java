@@ -32,7 +32,7 @@ import static com.google.android.gms.internal.zzs.TAG;
 
 public class YahooFragment extends Fragment {
     private String urlLink="https://sports.yahoo.com/top/rss.xml";
-    private List<RssFeedModel> mFeedModelList;;
+    private List<RssFeedModel> mFeedModelList;
 RecyclerView recycleView;
     View convertView;
     @Nullable
@@ -52,7 +52,7 @@ RecyclerView recycleView;
 
     private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
 
-        private String urlLink;
+
 
         @Override
         protected void onPreExecute() {
@@ -61,12 +61,13 @@ RecyclerView recycleView;
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            if (TextUtils.isEmpty(urlLink))
-                return false;
+
 
             try {
-                if(!urlLink.startsWith("http://") && !urlLink.startsWith("https://"))
+                if(!urlLink.startsWith("http://") && !urlLink.startsWith("https://")){
                     urlLink = "http://" + urlLink;
+                }
+
 
                 URL url = new URL(urlLink);
                 InputStream inputStream = url.openConnection().getInputStream();
