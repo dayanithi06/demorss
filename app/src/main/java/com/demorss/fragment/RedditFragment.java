@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -51,6 +52,7 @@ public class RedditFragment extends Fragment {
     View convertView;
     Timer mTimer = new Timer();
     RedditReceiver redditReceiver;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -60,19 +62,31 @@ public class RedditFragment extends Fragment {
         intitViews(convertView);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recycleView.setLayoutManager(manager);
-registerReciver();
+        registerReciver();
+        setListner();
         return convertView;
     }
-
+    private void setListner() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                startLoadService();
+            }
+        });
+    }
     private void intitViews(View convertView) {
         recycleView = (RecyclerView) convertView.findViewById(R.id.recycleView);
+        swipeRefreshLayout = (SwipeRefreshLayout) convertView.findViewById(R.id.swipeLayout);
     }
+
     private void registerReciver() {
+        swipeRefreshLayout.setRefreshing(true);
         redditReceiver = new RedditFragment.RedditReceiver();
         getActivity().registerReceiver(redditReceiver, new IntentFilter("com.demorss.reditt"));
-
         startLoadService();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -87,6 +101,7 @@ registerReciver();
     }
 
     private void startLoadService() {
+
         Intent intent = new Intent(getActivity(), TimerService.class);
         intent.putExtra("urlLink", urlLink);
         intent.putExtra("isWhich", "reditt");
@@ -100,6 +115,8 @@ registerReciver();
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            swipeRefreshLayout.setRefreshing(false);
+
             mFeedModelList = (List<RssFeedModel>) intent.getSerializableExtra("data");
             recycleView.setAdapter(new RedditAdapter(mFeedModelList));
         }
