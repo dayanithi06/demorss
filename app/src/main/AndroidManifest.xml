@@ -19,7 +19,23 @@
         <activity android:name=".ui.main.MainActivity"/>
         <activity android:name=".ui.SettingsActivity"/>
         <activity android:name=".ui.LoginActivity"/>
+      <!--  <receiver android:name=".fragment.YahooFragment$YahooReceiver">
 
+            <intent-filter>
+                <action android:name="com.demorss.yahoo">
+                </action>
+            </intent-filter>
+
+        </receiver>
+        <receiver android:name=".fragment.RedditFragment$RedditReceiver">
+
+            <intent-filter>
+                <action android:name="com.demorss.reditt">
+                </action>
+            </intent-filter>
+
+        </receiver>-->
+        <service android:name=".service.TimerService"/>
     </application>
 
 </manifest>

@@ -1,5 +1,9 @@
 package com.demorss.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +21,7 @@ import com.demorss.R;
 import com.demorss.fragment.adapter.RedditAdapter;
 import com.demorss.fragment.adapter.YahooAdapter;
 import com.demorss.model.RssFeedModel;
+import com.demorss.service.TimerService;
 import com.demorss.utils.Parser;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -25,6 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.google.android.gms.internal.zzs.TAG;
 
@@ -42,7 +49,8 @@ public class RedditFragment extends Fragment {
     private List<RssFeedModel> mFeedModelList;
     RecyclerView recycleView;
     View convertView;
-
+    Timer mTimer = new Timer();
+    RedditReceiver redditReceiver;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,7 +59,7 @@ public class RedditFragment extends Fragment {
         intitViews(convertView);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recycleView.setLayoutManager(manager);
-        new FetchFeedTask().execute();
+
         return convertView;
     }
 
@@ -59,51 +67,39 @@ public class RedditFragment extends Fragment {
         recycleView = (RecyclerView) convertView.findViewById(R.id.recycleView);
     }
 
-    private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
-
-
-
-        @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-
-
-            try {
-                if (!urlLink.startsWith("http://") && !urlLink.startsWith("https://")){
-                    urlLink = "http://" + urlLink;
-
-                }
-
-                URL url = new URL(urlLink);
-                InputStream inputStream = url.openConnection().getInputStream();
-                mFeedModelList = Parser.parseFeed(inputStream);
-                return true;
-            } catch (IOException e) {
-                Log.e(TAG, "Error", e);
-            } catch (XmlPullParserException e) {
-                Log.e(TAG, "Error", e);
+    @Override
+    public void onResume() {
+        super.onResume();
+         redditReceiver = new RedditReceiver();
+        getActivity().registerReceiver(redditReceiver,new IntentFilter("com.demorss.reditt"));
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getActivity(), TimerService.class);
+                intent.putExtra("urlLink", urlLink);
+                intent.putExtra("isWhich", "reditt");
+                getActivity().startService(intent);
             }
-            return false;
+        };
+
+        mTimer.schedule(timerTask, 0, 1000 * 60);
+    }
+
+    public  class RedditReceiver extends BroadcastReceiver {
+        public RedditReceiver() {
+
         }
 
         @Override
-        protected void onPostExecute(Boolean success) {
-
-            if (success) {
-              /*  mFeedTitleTextView.setText("Feed Title: " + mFeedTitle);
-                mFeedDescriptionTextView.setText("Feed Description: " + mFeedDescription);
-                mFeedLinkTextView.setText("Feed Link: " + mFeedLink);*/
-                // Fill RecyclerView
-                recycleView.setAdapter(new RedditAdapter(mFeedModelList));
-            } else {
-                Toast.makeText(getActivity(),
-                        "Something went wrong",
-                        Toast.LENGTH_LONG).show();
-            }
+        public void onReceive(Context context, Intent intent) {
+            mFeedModelList = (List<RssFeedModel>) intent.getSerializableExtra("data");
+            recycleView.setAdapter(new YahooAdapter(mFeedModelList));
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(redditReceiver);
     }
 }

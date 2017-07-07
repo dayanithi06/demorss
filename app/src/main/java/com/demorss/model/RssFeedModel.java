@@ -1,6 +1,8 @@
 package com.demorss.model;
 
-public class RssFeedModel {
+import java.io.Serializable;
+
+public class RssFeedModel implements Serializable {
 
     public String title;
     public String link;
