@@ -46,6 +46,7 @@ public class YahooFragment extends Fragment {
     View convertView;
     Timer mTimer = new Timer();
     YahooReceiver receiver;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,22 +65,27 @@ public class YahooFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-         receiver = new YahooReceiver();
-getActivity().registerReceiver(receiver,new IntentFilter("com.demorss.yahoo"));
+        receiver = new YahooReceiver();
+        startLoadService();
+        getActivity().registerReceiver(receiver, new IntentFilter("com.demorss.yahoo"));
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                Intent intent = new Intent(getActivity(), TimerService.class);
-                intent.putExtra("urlLink", urlLink);
-                intent.putExtra("isWhich", "yahoo");
-                getActivity().startService(intent);
+               startLoadService();
             }
         };
 
         mTimer.schedule(timerTask, 0, 1000 * 60);
     }
 
-    public  class YahooReceiver extends BroadcastReceiver {
+    private void startLoadService() {
+        Intent intent = new Intent(getActivity(), TimerService.class);
+        intent.putExtra("urlLink", urlLink);
+        intent.putExtra("isWhich", "yahoo");
+        getActivity().startService(intent);
+    }
+
+    public class YahooReceiver extends BroadcastReceiver {
         public YahooReceiver() {
 
         }
@@ -91,7 +97,7 @@ getActivity().registerReceiver(receiver,new IntentFilter("com.demorss.yahoo"));
         }
     }
 
-    public  void setAdapter(Intent intent) {
+    public void setAdapter(Intent intent) {
         mFeedModelList = (List<RssFeedModel>) intent.getSerializableExtra("data");
         recycleView.setAdapter(new YahooAdapter(mFeedModelList));
     }

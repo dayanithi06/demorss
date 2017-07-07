@@ -51,6 +51,7 @@ public class RedditFragment extends Fragment {
     View convertView;
     Timer mTimer = new Timer();
     RedditReceiver redditReceiver;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,22 +71,29 @@ public class RedditFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-         redditReceiver = new RedditReceiver();
-        getActivity().registerReceiver(redditReceiver,new IntentFilter("com.demorss.reditt"));
+        redditReceiver = new RedditReceiver();
+
+        getActivity().registerReceiver(redditReceiver, new IntentFilter("com.demorss.reditt"));
+        startLoadService();
+
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                Intent intent = new Intent(getActivity(), TimerService.class);
-                intent.putExtra("urlLink", urlLink);
-                intent.putExtra("isWhich", "reditt");
-                getActivity().startService(intent);
+                startLoadService();
             }
         };
 
         mTimer.schedule(timerTask, 0, 1000 * 60);
     }
 
-    public  class RedditReceiver extends BroadcastReceiver {
+    private void startLoadService() {
+        Intent intent = new Intent(getActivity(), TimerService.class);
+        intent.putExtra("urlLink", urlLink);
+        intent.putExtra("isWhich", "reditt");
+        getActivity().startService(intent);
+    }
+
+    public class RedditReceiver extends BroadcastReceiver {
         public RedditReceiver() {
 
         }
