@@ -60,21 +60,22 @@ public class RedditFragment extends Fragment {
         intitViews(convertView);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recycleView.setLayoutManager(manager);
-
+registerReciver();
         return convertView;
     }
 
     private void intitViews(View convertView) {
         recycleView = (RecyclerView) convertView.findViewById(R.id.recycleView);
     }
+    private void registerReciver() {
+        redditReceiver = new RedditFragment.RedditReceiver();
+        getActivity().registerReceiver(redditReceiver, new IntentFilter("com.demorss.reditt"));
 
+        startLoadService();
+    }
     @Override
     public void onResume() {
         super.onResume();
-        redditReceiver = new RedditReceiver();
-
-        getActivity().registerReceiver(redditReceiver, new IntentFilter("com.demorss.reditt"));
-        startLoadService();
 
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -82,7 +83,6 @@ public class RedditFragment extends Fragment {
                 startLoadService();
             }
         };
-
         mTimer.schedule(timerTask, 0, 1000 * 60);
     }
 
@@ -101,7 +101,7 @@ public class RedditFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             mFeedModelList = (List<RssFeedModel>) intent.getSerializableExtra("data");
-            recycleView.setAdapter(new YahooAdapter(mFeedModelList));
+            recycleView.setAdapter(new RedditAdapter(mFeedModelList));
         }
     }
 

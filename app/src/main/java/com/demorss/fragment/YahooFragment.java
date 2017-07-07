@@ -58,6 +58,8 @@ public class YahooFragment extends Fragment {
         return convertView;
     }
 
+
+
     private void intitViews(View convertView) {
         recycleView = (RecyclerView) convertView.findViewById(R.id.recycleView);
     }
@@ -71,7 +73,7 @@ public class YahooFragment extends Fragment {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-               startLoadService();
+                startLoadService();
             }
         };
 

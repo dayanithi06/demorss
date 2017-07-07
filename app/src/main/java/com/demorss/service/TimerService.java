@@ -88,12 +88,12 @@ public class TimerService extends IntentService {
         protected void onPostExecute(Boolean success) {
 
             if (success) {
-                if (isWhich.equalsIgnoreCase("yahoo")) {
+                if (isWhich.equalsIgnoreCase("yahoo")&&urlLink.contains("yahoo")) {
                     Intent intent = new Intent();
                     intent.putExtra("data", (Serializable) mFeedModelList);
                     intent.setAction("com.demorss.yahoo");
                     sendBroadcast(intent);
-                } else if (isWhich.equalsIgnoreCase("reditt")) {
+                } else if (isWhich.equalsIgnoreCase("reditt")&&urlLink.contains("rediff")) {
                     Intent intent = new Intent();
                     intent.putExtra("data", (Serializable) mFeedModelList);
                     intent.setAction("com.demorss.reditt");
