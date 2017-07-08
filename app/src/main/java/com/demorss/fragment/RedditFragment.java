@@ -90,7 +90,7 @@ Handler handler = new Handler();
                 getActivity().registerReceiver(redditReceiver, new IntentFilter("com.demorss.reditt"));
                 startLoadService();
             }
-        },10000);
+        },20000);
 
     }
 
@@ -123,7 +123,6 @@ Handler handler = new Handler();
         @Override
         public void onReceive(Context context, Intent intent) {
             swipeRefreshLayout.setRefreshing(false);
-
             mFeedModelList = (List<RssFeedModel>) intent.getSerializableExtra("data");
             recycleView.setAdapter(new RedditAdapter(mFeedModelList));
         }

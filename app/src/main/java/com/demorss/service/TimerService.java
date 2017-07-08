@@ -44,10 +44,12 @@ boolean isLoading= false;
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        if(!isLoading)
-        urlLink = intent.getStringExtra("urlLink");
-        isWhich = intent.getStringExtra("isWhich");
-        connectToApi();
+        if(!isLoading){
+            urlLink = intent.getStringExtra("urlLink");
+            isWhich = intent.getStringExtra("isWhich");
+            connectToApi();
+        }
+
     }
 
     private void connectToApi() {
@@ -87,7 +89,6 @@ boolean isLoading= false;
 
         @Override
         protected void onPostExecute(Boolean success) {
-isLoading=false;
             if (success) {
                 if (isWhich.equalsIgnoreCase("yahoo")&&urlLink.contains("yahoo")) {
                     Intent intent = new Intent();
@@ -100,10 +101,14 @@ isLoading=false;
                     intent.setAction("com.demorss.reditt");
                     sendBroadcast(intent);
                 }
+                isLoading=false;
+
             } else {
                 Toast.makeText(TimerService.this,
                         "Something went wrong",
                         Toast.LENGTH_LONG).show();
+                isLoading=false;
+
             }
         }
     }
