@@ -61,6 +61,7 @@ public class SettingsActivity extends BaseActivity {
                     PrefConnect.writeBoolean(SettingsActivity.this, PrefConnect.isYahooSubscribed, yahooSubScribe);
                     PrefConnect.writeBoolean(SettingsActivity.this, PrefConnect.isRedditSubscribed, reditSubscribe);
                     Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
                 } else {

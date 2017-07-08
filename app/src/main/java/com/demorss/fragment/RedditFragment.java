@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -53,7 +54,7 @@ public class RedditFragment extends Fragment {
     Timer mTimer = new Timer();
     RedditReceiver redditReceiver;
     SwipeRefreshLayout swipeRefreshLayout;
-
+Handler handler = new Handler();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,16 +82,22 @@ public class RedditFragment extends Fragment {
     }
 
     private void registerReciver() {
-        swipeRefreshLayout.setRefreshing(true);
-        redditReceiver = new RedditFragment.RedditReceiver();
-        getActivity().registerReceiver(redditReceiver, new IntentFilter("com.demorss.reditt"));
-        startLoadService();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                redditReceiver = new RedditFragment.RedditReceiver();
+                getActivity().registerReceiver(redditReceiver, new IntentFilter("com.demorss.reditt"));
+                startLoadService();
+            }
+        },10000);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        registerReciver();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {

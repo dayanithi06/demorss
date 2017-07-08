@@ -1,14 +1,19 @@
 package com.demorss.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.demorss.BaseActivity;
 import com.demorss.R;
 import com.demorss.fragment.RedditFragment;
 import com.demorss.fragment.YahooFragment;
+import com.demorss.ui.SettingsActivity;
 import com.demorss.utils.PrefConnect;
 
 import java.util.ArrayList;
@@ -20,7 +25,8 @@ public class MainActivity extends BaseActivity {
     List<Fragment> fragments;
     boolean isRedditSubscribed = false,
             isYahooSubscribed = false;
-   TabLayout tab_layout;
+    TabLayout tab_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,13 +60,14 @@ public class MainActivity extends BaseActivity {
 
 
     private void loadPrefs() {
-       isRedditSubscribed = PrefConnect.readBoolean(this, PrefConnect.isRedditSubscribed, false);
-       isYahooSubscribed = PrefConnect.readBoolean(this, PrefConnect.isYahooSubscribed, false);
+        isRedditSubscribed = PrefConnect.readBoolean(this, PrefConnect.isRedditSubscribed, false);
+        isYahooSubscribed = PrefConnect.readBoolean(this, PrefConnect.isYahooSubscribed, false);
     }
 
     private void initViews() {
         pager = (ViewPager) findViewById(R.id.pager);
-        tab_layout=(TabLayout)findViewById(R.id.tab_layout);
+        pager.setOffscreenPageLimit(0);
+        tab_layout = (TabLayout) findViewById(R.id.tab_layout);
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
@@ -86,5 +93,23 @@ public class MainActivity extends BaseActivity {
 
 
         return fList;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_settings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

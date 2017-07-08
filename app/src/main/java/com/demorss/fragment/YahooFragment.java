@@ -57,7 +57,15 @@ public class YahooFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recycleView.setLayoutManager(manager);
         setListner();
+        startLoadService();
         return convertView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
     }
 
     private void setListner() {
@@ -81,8 +89,6 @@ public class YahooFragment extends Fragment {
         super.onResume();
         receiver = new YahooReceiver();
         swipeRefreshLayout.setRefreshing(true);
-
-        startLoadService();
         getActivity().registerReceiver(receiver, new IntentFilter("com.demorss.yahoo"));
         TimerTask timerTask = new TimerTask() {
             @Override

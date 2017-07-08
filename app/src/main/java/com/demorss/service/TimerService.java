@@ -33,7 +33,7 @@ public class TimerService extends IntentService {
      */
     String urlLink, isWhich;
     List<RssFeedModel> mFeedModelList;
-
+boolean isLoading= false;
     public TimerService() {
         super("TimerService");
     }
@@ -44,6 +44,7 @@ public class TimerService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        if(!isLoading)
         urlLink = intent.getStringExtra("urlLink");
         isWhich = intent.getStringExtra("isWhich");
         connectToApi();
@@ -59,7 +60,7 @@ public class TimerService extends IntentService {
 
         @Override
         protected void onPreExecute() {
-
+            isLoading= true;
         }
 
         @Override
@@ -86,7 +87,7 @@ public class TimerService extends IntentService {
 
         @Override
         protected void onPostExecute(Boolean success) {
-
+isLoading=false;
             if (success) {
                 if (isWhich.equalsIgnoreCase("yahoo")&&urlLink.contains("yahoo")) {
                     Intent intent = new Intent();
