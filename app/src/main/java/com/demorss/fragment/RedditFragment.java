@@ -131,6 +131,7 @@ Handler handler = new Handler();
     @Override
     public void onPause() {
         super.onPause();
+        if(redditReceiver!=null)
         getActivity().unregisterReceiver(redditReceiver);
     }
 }
